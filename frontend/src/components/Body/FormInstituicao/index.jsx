@@ -9,8 +9,8 @@ const FormInstituicao = () => {
             <label for="uf">UF</label>
             <input type="text" id="uf" name="uf" maxLength="2" required="required" />
             
-            <label for="qtd_alunos">Quantidade de alunos</label>
-            <input type="number" id="qtd_alunos" name="qtd_alunos" min="0" required="required" />
+            <label for="qtd-alunos">Quantidade de alunos</label>
+            <input type="number" id="qtd-alunos" name="qtd-alunos" min="0" required="required" />
         </form>
     );
 }
