@@ -1,5 +1,4 @@
 form {
-    display: grid;
     font-weight: 600;
 }
 
@@ -7,8 +6,7 @@ input {
     background-color: #e5e5ff;
     border-radius: 5px;
     border-style: none;
-    height:40px;
-    margin: 5px 0 15px 0;
+    height: 40px; 
     padding: 10px;
     width: 100%;
 }
@@ -16,11 +14,15 @@ input {
 /* Remoção das setas no Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Remoção das setas no Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+label {
+    margin-top: 5px;
 }
