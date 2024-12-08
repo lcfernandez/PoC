@@ -10,6 +10,14 @@ const AddButton = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    // Estados para os dados da Instituição
+    const [nome, setNome] = useState("");
+    const [uf, setUf] = useState("");
+    const [qtdAlunos, setQtdAlunos] = useState("");
+
+    // Evento para salvar o registro
+    const handleSubmit = () => console.log({nome: nome, uf: uf, qtdAlunos: qtdAlunos});
+
     return (
         <div className="add-button-container">
             <Button variant="success" onClick={handleShow}>
@@ -21,13 +29,20 @@ const AddButton = (props) => {
                     <Modal.Title>Nova Instituição</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormInstituicao />
+                    <FormInstituicao
+                        nome={nome}
+                        setNome={setNome}
+                        uf={uf}
+                        setUf={setUf}
+                        qtdAlunos={qtdAlunos}
+                        setQtdAlunos={setQtdAlunos}
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Fechar
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleSubmit}>
                         Salvar
                     </Button>
                 </Modal.Footer>

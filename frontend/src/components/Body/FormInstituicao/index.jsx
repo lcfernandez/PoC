@@ -1,16 +1,48 @@
 import './index.css';
 
-const FormInstituicao = () => {
+const FormInstituicao = (props) => {
+    const {
+        nome,
+        setNome,
+        uf,
+        setUf,
+        qtdAlunos,
+        setQtdAlunos
+    } = props;
+
     return (
         <form>
-            <label for="nome">Nome</label>
-            <input type="text" id="nome" name="nome" required="required" />
+            <label htmlFor="nome">Nome</label>
+            <input
+                id="nome"
+                name="nome"
+                onChange={e => setNome(e.target.value)}
+                required="required"
+                type="text"
+                value={nome}
+            />
             
-            <label for="uf">UF</label>
-            <input type="text" id="uf" name="uf" maxLength="2" required="required" />
+            <label htmlFor="uf">UF</label>
+            <input
+                id="uf"
+                maxLength="2" 
+                name="uf"
+                onChange={e => setUf(e.target.value)}
+                required="required"
+                type="text"
+                value={uf}
+            />
             
-            <label for="qtd-alunos">Quantidade de alunos</label>
-            <input type="number" id="qtd-alunos" name="qtd-alunos" min="0" required="required" />
+            <label htmlFor="qtd-alunos">Quantidade de alunos</label>
+            <input 
+                id="qtd-alunos"
+                min="0"
+                name="qtd-alunos"
+                onChange={e => setQtdAlunos(e.target.value)}
+                required="required"
+                type="number"
+                value={qtdAlunos}
+            />
         </form>
     );
 }
