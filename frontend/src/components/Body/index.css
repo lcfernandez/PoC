@@ -9,27 +9,3 @@
     flex-direction: column;
     gap: 15px;
 }
-
-form {
-    display: grid;
-    font-weight: 600;
-
-    input {
-        background-color: #e5e5ff;
-        border-radius: 5px;
-        border-style: none;
-        height:40px;
-        margin: 5px 0 15px 0;
-        padding: 10px;
-    }
-
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
-
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-}

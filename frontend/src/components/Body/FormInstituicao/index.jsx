@@ -1,3 +1,5 @@
+import './index.css';
+
 const FormInstituicao = () => {
     return (
         <form>
