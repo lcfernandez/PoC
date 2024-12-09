@@ -4,7 +4,9 @@ import './index.css';
 import backendUrl from '../../../utils/backend-url';
 import axios from 'axios';
 
-const InstituicoesTable = () => {
+const InstituicoesTable = (props) => {
+    const {update, setUpdate} = props;
+    
     // Estado para a listagem de Instituições
     const [data, setData] = useState([]);
 
@@ -21,7 +23,7 @@ const InstituicoesTable = () => {
     // Inicialização/atualização da listagem
     useEffect(() => {
         fetchInstituicaoList();
-    }, []);
+    }, [update]);
 
     const columns = React.useMemo(
         () => [
