@@ -14,12 +14,22 @@ const InstituicoesTable = (props) => {
     // Evento para capturar os registros
     const fetchInstituicaoList = React.useMemo(() => async () => {
         try {
-          const res = await axios.get(`${backendUrl}/instituicoes`);
-          setData(res.data);
+            const res = await axios.get(`${backendUrl}/instituicoes`);
+            setData(res.data);
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
     }, []);
+
+    // Evento para excluir o registro
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`${backendUrl}/instituicoes/${id}`);
+            setUpdate(!update);
+        } catch (error) {
+            console.error(error);
+        }
+    }
     
     // Inicialização/atualização da listagem
     useEffect(() => {
@@ -35,6 +45,7 @@ const InstituicoesTable = (props) => {
         []
     );
 
+    // Criação das colunas e botões para edição/exclusão
     const tableHooks = (hooks) => {
         hooks.visibleColumns.push((columns) => [
             ...columns,
@@ -47,7 +58,7 @@ const InstituicoesTable = (props) => {
             {
                 id: "excluir",
                 Cell: ({row}) => (
-                    <Button variant='danger'>Excluir</Button>
+                    <Button variant='danger' onClick={() => handleDelete(row.original._id)}>Excluir</Button>
                 )
             }
         ])

@@ -27,8 +27,7 @@ const AddButton = (props) => {
 
         axios
             .post(`${backendUrl}/instituicoes`, body)
-            .then(res => {
-                console.log(res.data);
+            .then(() => {
                 setUpdate(!update);
             })
             .catch(err => alert(err.response.data.message || err.response.data));
