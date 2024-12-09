@@ -7,17 +7,21 @@ import axios from 'axios';
 import backendUrl from '../../../utils/backend-url';
 
 const AddButton = (props) => {
-    const {update, setUpdate} = props;
+    const {
+        nome,
+        setNome,
+        uf,
+        setUf,
+        qtdAlunos,
+        setQtdAlunos,
+        update,
+        setUpdate
+    } = props;
 
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    // Estados para os dados da Instituição
-    const [nome, setNome] = useState(undefined);
-    const [uf, setUf] = useState(undefined);
-    const [qtdAlunos, setQtdAlunos] = useState(undefined);
 
     // Evento para salvar o registro
     const handleSubmit = () => {
@@ -27,8 +31,7 @@ const AddButton = (props) => {
 
         axios
             .post(`${backendUrl}/instituicoes`, body)
-            .then(res => {
-                console.log(res.data);
+            .then(() => {
                 setUpdate(!update);
             })
             .catch(err => alert(err.response.data.message || err.response.data));

@@ -3,10 +3,33 @@ import { useTable } from 'react-table';
 import './index.css';
 import backendUrl from '../../../utils/backend-url';
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
+import FormInstituicao from '../FormInstituicao';
 
 const InstituicoesTable = (props) => {
-    const {update, setUpdate} = props;
+    const {
+        nome,
+        setNome,
+        uf,
+        setUf,
+        qtdAlunos,
+        setQtdAlunos,
+        update,
+        setUpdate
+    } = props;
+
+    // Estados e eventos para o modal de Editar
+    const [id, setId] = useState(undefined);
+    const [showEdit, setShowEdit] = useState(false);
+
+    const handleCloseEdit = () => setShowEdit(false);
+    const handleShowEdit = instituicao => {
+        setNome(instituicao.nome);
+        setUf(instituicao.uf);
+        setQtdAlunos(instituicao.qtdAlunos);
+        setId(instituicao._id);
+        setShowEdit(true);
+    }
 
     // Estado para a listagem de Instituições
     const [data, setData] = useState([]);
@@ -14,13 +37,37 @@ const InstituicoesTable = (props) => {
     // Evento para capturar os registros
     const fetchInstituicaoList = React.useMemo(() => async () => {
         try {
-          const res = await axios.get(`${backendUrl}/instituicoes`);
-          setData(res.data);
+            const res = await axios.get(`${backendUrl}/instituicoes`);
+            setData(res.data);
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
     }, []);
-    
+
+    // Evento para excluir o registro
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`${backendUrl}/instituicoes/${id}`);
+            setUpdate(!update);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    // Evento para editar o registro
+    const handleSubmitEdit = async () => {
+        try {
+            const body = {
+                "nome": nome, "uf": uf, "qtdAlunos": parseInt(qtdAlunos)
+            };
+
+            await axios.put(`${backendUrl}/instituicoes/${id}`, body);
+            setUpdate(!update);
+        } catch (error) {
+            console.error(error);
+        }
+    }    
+
     // Inicialização/atualização da listagem
     useEffect(() => {
         fetchInstituicaoList();
@@ -35,19 +82,20 @@ const InstituicoesTable = (props) => {
         []
     );
 
+    // Criação das colunas e botões para edição/exclusão
     const tableHooks = (hooks) => {
         hooks.visibleColumns.push((columns) => [
             ...columns,
             {
                 id: "editar",
                 Cell: ({row}) => (
-                    <Button>Editar</Button>
+                    <Button size="sm" onClick={() => handleShowEdit(row.original)}>Editar</Button>
                 )
             },
             {
                 id: "excluir",
                 Cell: ({row}) => (
-                    <Button variant='danger'>Excluir</Button>
+                    <Button variant='danger' onClick={() => handleDelete(row.original._id)} size="sm">Excluir</Button>
                 )
             }
         ])
@@ -93,6 +141,31 @@ const InstituicoesTable = (props) => {
                     })}
                 </tbody>
             </table>
+
+            {/* Modal para Editar Instituição*/}
+            <Modal show={showEdit} onHide={handleCloseEdit}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Editar Instituição</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <FormInstituicao
+                        nome={nome}
+                        setNome={setNome}
+                        uf={uf}
+                        setUf={setUf}
+                        qtdAlunos={qtdAlunos}
+                        setQtdAlunos={setQtdAlunos}
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseEdit}>
+                        Fechar
+                    </Button>
+                    <Button variant="primary" onClick={handleSubmitEdit}>
+                        Salvar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };
