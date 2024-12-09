@@ -11,4 +11,17 @@ router.get('/', async (req, res) => {
 
 })
 
+// Insere uma Instituição
+router.post('/', async (req, res) => {
+
+    try {
+        await Instituicoes.create(req.body);
+        res.sendStatus(201);
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+
+})
+
 module.exports = router

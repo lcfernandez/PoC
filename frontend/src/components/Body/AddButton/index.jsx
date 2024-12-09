@@ -3,12 +3,31 @@ import { Button, Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import FormInstituicao from '../FormInstituicao';
+import axios from 'axios';
+import backendUrl from '../../../utils/backend-url';
 
 const AddButton = (props) => {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    // Estados para os dados da Instituição
+    const [nome, setNome] = useState(undefined);
+    const [uf, setUf] = useState(undefined);
+    const [qtdAlunos, setQtdAlunos] = useState(undefined);
+
+    // Evento para salvar o registro
+    const handleSubmit = () => {
+        const body = {
+            "nome": nome, "uf": uf, "qtdAlunos": parseInt(qtdAlunos)
+        };
+
+        axios
+            .post(`${backendUrl}/instituicoes`, body)
+            .then(res => console.log(res.data))
+            .catch(err => alert(err.response.data.message || err.response.data));
+    }
 
     return (
         <div className="add-button-container">
@@ -21,13 +40,20 @@ const AddButton = (props) => {
                     <Modal.Title>Nova Instituição</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormInstituicao />
+                    <FormInstituicao
+                        nome={nome}
+                        setNome={setNome}
+                        uf={uf}
+                        setUf={setUf}
+                        qtdAlunos={qtdAlunos}
+                        setQtdAlunos={setQtdAlunos}
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Fechar
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleSubmit}>
                         Salvar
                     </Button>
                 </Modal.Footer>
