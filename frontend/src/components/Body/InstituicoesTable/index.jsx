@@ -3,10 +3,31 @@ import { useTable } from 'react-table';
 import './index.css';
 import backendUrl from '../../../utils/backend-url';
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
+import FormInstituicao from '../FormInstituicao';
 
 const InstituicoesTable = (props) => {
-    const {update, setUpdate} = props;
+    const {
+        nome,
+        setNome,
+        uf,
+        setUf,
+        qtdAlunos,
+        setQtdAlunos,
+        update,
+        setUpdate
+    } = props;
+
+    // Estados e eventos para o modal de Editar
+    const [showEdit, setShowEdit] = useState(false);
+
+    const handleCloseEdit = () => setShowEdit(false);
+    const handleShowEdit = instituicao => {
+        setNome(instituicao.nome);
+        setUf(instituicao.uf);
+        setQtdAlunos(instituicao.qtdAlunos);
+        setShowEdit(true);
+    }
 
     // Estado para a listagem de Instituições
     const [data, setData] = useState([]);
@@ -30,7 +51,7 @@ const InstituicoesTable = (props) => {
             console.error(error);
         }
     }
-    
+
     // Inicialização/atualização da listagem
     useEffect(() => {
         fetchInstituicaoList();
@@ -52,7 +73,7 @@ const InstituicoesTable = (props) => {
             {
                 id: "editar",
                 Cell: ({row}) => (
-                    <Button size="sm">Editar</Button>
+                    <Button size="sm" onClick={() => handleShowEdit(row.original)}>Editar</Button>
                 )
             },
             {
@@ -104,6 +125,31 @@ const InstituicoesTable = (props) => {
                     })}
                 </tbody>
             </table>
+
+            {/* Modal para Editar Instituição*/}
+            <Modal show={showEdit} onHide={handleCloseEdit}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Editar Instituição</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <FormInstituicao
+                        nome={nome}
+                        setNome={setNome}
+                        uf={uf}
+                        setUf={setUf}
+                        qtdAlunos={qtdAlunos}
+                        setQtdAlunos={setQtdAlunos}
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseEdit}>
+                        Fechar
+                    </Button>
+                    <Button variant="primary">
+                        Salvar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };
