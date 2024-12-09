@@ -52,13 +52,13 @@ const InstituicoesTable = (props) => {
             {
                 id: "editar",
                 Cell: ({row}) => (
-                    <Button>Editar</Button>
+                    <Button size="sm">Editar</Button>
                 )
             },
             {
                 id: "excluir",
                 Cell: ({row}) => (
-                    <Button variant='danger' onClick={() => handleDelete(row.original._id)}>Excluir</Button>
+                    <Button variant='danger' onClick={() => handleDelete(row.original._id)} size="sm">Excluir</Button>
                 )
             }
         ])
