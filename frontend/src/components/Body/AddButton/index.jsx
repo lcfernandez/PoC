@@ -3,6 +3,8 @@ import { Button, Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import FormInstituicao from '../FormInstituicao';
+import axios from 'axios';
+import backendUrl from '../../../utils/backend-url';
 
 const AddButton = (props) => {
     const [show, setShow] = useState(false);
@@ -11,12 +13,21 @@ const AddButton = (props) => {
     const handleShow = () => setShow(true);
 
     // Estados para os dados da Instituição
-    const [nome, setNome] = useState("");
-    const [uf, setUf] = useState("");
-    const [qtdAlunos, setQtdAlunos] = useState("");
+    const [nome, setNome] = useState(undefined);
+    const [uf, setUf] = useState(undefined);
+    const [qtdAlunos, setQtdAlunos] = useState(undefined);
 
     // Evento para salvar o registro
-    const handleSubmit = () => console.log({nome: nome, uf: uf, qtdAlunos: qtdAlunos});
+    const handleSubmit = () => {
+        const body = {
+            "nome": nome, "uf": uf, "qtdAlunos": parseInt(qtdAlunos)
+        };
+
+        axios
+            .post(`${backendUrl}/instituicoes`, body)
+            .then(res => console.log(res.data))
+            .catch(err => alert(err.response.data.message || err.response.data));
+    }
 
     return (
         <div className="add-button-container">
