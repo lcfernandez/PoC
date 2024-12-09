@@ -3,10 +3,11 @@ import { useTable } from 'react-table';
 import './index.css';
 import backendUrl from '../../../utils/backend-url';
 import axios from 'axios';
+import { Button } from 'react-bootstrap';
 
 const InstituicoesTable = (props) => {
     const {update, setUpdate} = props;
-    
+
     // Estado para a listagem de Instituições
     const [data, setData] = useState([]);
 
@@ -34,13 +35,33 @@ const InstituicoesTable = (props) => {
         []
     );
 
+    const tableHooks = (hooks) => {
+        hooks.visibleColumns.push((columns) => [
+            ...columns,
+            {
+                id: "editar",
+                Cell: ({row}) => (
+                    <Button>Editar</Button>
+                )
+            },
+            {
+                id: "excluir",
+                Cell: ({row}) => (
+                    <Button variant='danger'>Excluir</Button>
+                )
+            }
+        ])
+    }
+    
+    const tableInstance = useTable({ columns, data }, tableHooks)
+
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
         prepareRow,
-    } = useTable({ columns, data });
+    } = tableInstance;
 
     return (
         <div className="table-container">
@@ -58,7 +79,7 @@ const InstituicoesTable = (props) => {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {data.length === 0 ? <tr><td colSpan="3">Não há registros de Instituições.</td></tr> : rows.map(row => { // Tratamento para banco vazio adicionado
+                    {data.length === 0 ? <tr><td colSpan="5">Não há registros de Instituições.</td></tr> : rows.map(row => { // Tratamento para banco vazio adicionado
                         prepareRow(row);
                         return (
                             <tr {...row.getRowProps()} key={row.id}>
