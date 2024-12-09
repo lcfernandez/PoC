@@ -19,6 +19,7 @@ const InstituicoesTable = (props) => {
     } = props;
 
     // Estados e eventos para o modal de Editar
+    const [id, setId] = useState(undefined);
     const [showEdit, setShowEdit] = useState(false);
 
     const handleCloseEdit = () => setShowEdit(false);
@@ -26,6 +27,7 @@ const InstituicoesTable = (props) => {
         setNome(instituicao.nome);
         setUf(instituicao.uf);
         setQtdAlunos(instituicao.qtdAlunos);
+        setId(instituicao._id);
         setShowEdit(true);
     }
 
@@ -51,6 +53,20 @@ const InstituicoesTable = (props) => {
             console.error(error);
         }
     }
+
+    // Evento para editar o registro
+    const handleSubmitEdit = async () => {
+        try {
+            const body = {
+                "nome": nome, "uf": uf, "qtdAlunos": parseInt(qtdAlunos)
+            };
+
+            await axios.put(`${backendUrl}/instituicoes/${id}`, body);
+            setUpdate(!update);
+        } catch (error) {
+            console.error(error);
+        }
+    }    
 
     // Inicialização/atualização da listagem
     useEffect(() => {
@@ -145,7 +161,7 @@ const InstituicoesTable = (props) => {
                     <Button variant="secondary" onClick={handleCloseEdit}>
                         Fechar
                     </Button>
-                    <Button variant="primary">
+                    <Button variant="primary" onClick={handleSubmitEdit}>
                         Salvar
                     </Button>
                 </Modal.Footer>

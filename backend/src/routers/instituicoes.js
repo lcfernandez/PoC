@@ -26,25 +26,59 @@ router.post('/', async (req, res) => {
 
 })
 
+// Atualiza uma Instituição
+router.put('/:id', async (req, res) => {
+
+    const { id } = req.params;
+    const instituicaoId = mongoose.Types.ObjectId.createFromHexString(id);
+
+    try {
+        // Verifica existência da Instituição pelo id
+        const instituicao = await Instituicoes.findOne(
+            {
+                _id: instituicaoId
+            }
+        );
+
+        if (instituicao) {
+            await Instituicoes.updateOne(
+                {
+                    _id: instituicao._id
+                },
+                {
+                    $set: req.body
+                }
+            );
+
+            res.sendStatus(204);
+        } else {
+            res.sendStatus(404);
+        }
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+
+})
+
 // Remove uma Instituição
 router.delete('/:id', async (req, res) => {
 
     const { id } = req.params;
-    const institutionId = mongoose.Types.ObjectId.createFromHexString(id);
+    const instituicaoId = mongoose.Types.ObjectId.createFromHexString(id);
 
     try {
-
         // Verifica existência da Instituição pelo id
-        const institution = await Instituicoes.findOne(
+        const instituicao = await Instituicoes.findOne(
             {
-                _id: institutionId
+                _id: instituicaoId
             }
         );
 
-        if (institution) {
+        if (instituicao) {
             await Instituicoes.deleteOne(
                 {
-                    _id: institution._id
+                    _id: instituicao._id
                 }
             );
 
