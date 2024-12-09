@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTable } from 'react-table';
 import './index.css';
+import backendUrl from '../../../utils/backend-url';
+import axios from 'axios';
+import { Button } from 'react-bootstrap';
 
-const InstituicoesTable = () => {
-    const data = React.useMemo(
-        () => [
-            { nome: 'Instituição A', uf: 'SP', qtdAlunos: 1200 },
-            { nome: 'Instituição B', uf: 'RJ', qtdAlunos: 800 },
-            { nome: 'Instituição C', uf: 'MG', qtdAlunos: 950 },
-        ],
-        []
-    );
+const InstituicoesTable = (props) => {
+    const {update, setUpdate} = props;
+
+    // Estado para a listagem de Instituições
+    const [data, setData] = useState([]);
+
+    // Evento para capturar os registros
+    const fetchInstituicaoList = React.useMemo(() => async () => {
+        try {
+          const res = await axios.get(`${backendUrl}/instituicoes`);
+          setData(res.data);
+        } catch (error) {
+          console.error(error);
+        }
+    }, []);
+    
+    // Inicialização/atualização da listagem
+    useEffect(() => {
+        fetchInstituicaoList();
+    }, [update]);
 
     const columns = React.useMemo(
         () => [
@@ -21,20 +35,41 @@ const InstituicoesTable = () => {
         []
     );
 
+    const tableHooks = (hooks) => {
+        hooks.visibleColumns.push((columns) => [
+            ...columns,
+            {
+                id: "editar",
+                Cell: ({row}) => (
+                    <Button>Editar</Button>
+                )
+            },
+            {
+                id: "excluir",
+                Cell: ({row}) => (
+                    <Button variant='danger'>Excluir</Button>
+                )
+            }
+        ])
+    }
+    
+    const tableInstance = useTable({ columns, data }, tableHooks)
+
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
         prepareRow,
-    } = useTable({ columns, data });
+    } = tableInstance;
 
     return (
         <div className="table-container">
             <table {...getTableProps()} style={{ width: '100%', maxHeight: '400px', overflowY: 'auto' }}>
                 <thead>
                     {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
+                        // Como o id nesse objeto é inexistente e só é necessário um, estou colocando estaticamente para evitar o Warning
+                        <tr {...headerGroup.getHeaderGroupProps()} key={1}>
                             {headerGroup.headers.map(column => (
                                 <th {...column.getHeaderProps()} key={column.id}>
                                     {column.render('Header')}
@@ -44,7 +79,7 @@ const InstituicoesTable = () => {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {rows.map(row => {
+                    {data.length === 0 ? <tr><td colSpan="5">Não há registros de Instituições.</td></tr> : rows.map(row => { // Tratamento para banco vazio adicionado
                         prepareRow(row);
                         return (
                             <tr {...row.getRowProps()} key={row.id}>

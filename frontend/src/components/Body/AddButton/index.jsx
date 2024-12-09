@@ -7,6 +7,8 @@ import axios from 'axios';
 import backendUrl from '../../../utils/backend-url';
 
 const AddButton = (props) => {
+    const {update, setUpdate} = props;
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -25,7 +27,10 @@ const AddButton = (props) => {
 
         axios
             .post(`${backendUrl}/instituicoes`, body)
-            .then(res => console.log(res.data))
+            .then(res => {
+                console.log(res.data);
+                setUpdate(!update);
+            })
             .catch(err => alert(err.response.data.message || err.response.data));
     }
 
