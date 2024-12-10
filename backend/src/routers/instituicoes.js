@@ -13,6 +13,13 @@ router.get('/', async (req, res) => {
 
 })
 
+// Retorna cálculo agregado para o gráfico 
+router.get('/chart', async (req, res) => { 
+ 
+    const chart = await Instituicoes.aggregate([{$group: { _id: "$uf", totalQuantity: { $sum: "$qtdAlunos" } }}]) 
+    res.status(200).send(chart)
+})
+
 // Insere uma Instituição
 router.post('/', async (req, res) => {
 
