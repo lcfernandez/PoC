@@ -1,8 +1,8 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTable } from 'react-table';
 import './index.css';
-import backendUrl from '../../../utils/backend-url';
 import axios from 'axios';
+import backendUrl from '../../../utils/backend-url';
 import { Button, Modal } from 'react-bootstrap';
 import FormInstituicao from '../FormInstituicao';
 
