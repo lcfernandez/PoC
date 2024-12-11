@@ -19,16 +19,16 @@ const InstituicoesTable = (props) => {
         data
     } = props;
 
-    const [id, setId] = useState(undefined);
+    const [id, setId] = useState('');
 
     // Estado e eventos para Editar
     const [showEdit, setShowEdit] = useState(false);
 
     const handleCloseEdit = () => {
         setShowEdit(false);
-        setNome(undefined);
-        setUf(undefined);
-        setQtdAlunos(undefined);
+        setNome('');
+        setUf('');
+        setQtdAlunos('');
     }
     const handleShowEdit = instituicao => {
         setNome(instituicao.nome);
@@ -46,9 +46,10 @@ const InstituicoesTable = (props) => {
             await axios.put(`${backendUrl}/instituicoes/${id}`, body);
             setUpdate(!update);
             setShowEdit(false);
-            setNome(undefined);
-            setUf(undefined);
-            setQtdAlunos(undefined);
+            setNome('');
+            setUf('');
+            setQtdAlunos('');
+            setId('');
         } catch (error) {
             console.error(error);
         }
@@ -59,8 +60,8 @@ const InstituicoesTable = (props) => {
 
     const handleCloseDelete = () => {
         setShowDelete(false);
-        setNome(undefined);
-        setUf(undefined);
+        setNome('');
+        setUf('');
     }
     const handleShowDelete = instituicao => {
         setNome(instituicao.nome);
@@ -73,8 +74,9 @@ const InstituicoesTable = (props) => {
             await axios.delete(`${backendUrl}/instituicoes/${id}`);
             setUpdate(!update);
             setShowDelete(false);
-            setNome(undefined);
-            setUf(undefined);
+            setNome('');
+            setUf('');
+            setId('');
         } catch (error) {
             console.error(error);
         }
