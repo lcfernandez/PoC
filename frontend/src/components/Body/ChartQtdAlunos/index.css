@@ -13,3 +13,17 @@
     margin-bottom: 16px; 
     color: #333333; 
 }
+
+#chart-div {
+    align-items: center;
+    display: flex;
+    height: 500px;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+}
+
+#chart-div p {
+    position: absolute;
+    z-index: 1;
+}

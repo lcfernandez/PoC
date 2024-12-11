@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useTable } from 'react-table';
 import './index.css';
 import backendUrl from '../../../utils/backend-url';
@@ -15,14 +15,21 @@ const InstituicoesTable = (props) => {
         qtdAlunos,
         setQtdAlunos,
         update,
-        setUpdate
+        setUpdate,
+        data
     } = props;
 
-    // Estados e eventos para o modal de Editar
     const [id, setId] = useState(undefined);
+
+    // Estado e eventos para Editar
     const [showEdit, setShowEdit] = useState(false);
 
-    const handleCloseEdit = () => setShowEdit(false);
+    const handleCloseEdit = () => {
+        setShowEdit(false);
+        setNome(undefined);
+        setUf(undefined);
+        setQtdAlunos(undefined);
+    }
     const handleShowEdit = instituicao => {
         setNome(instituicao.nome);
         setUf(instituicao.uf);
@@ -30,31 +37,6 @@ const InstituicoesTable = (props) => {
         setId(instituicao._id);
         setShowEdit(true);
     }
-
-    // Estado para a listagem de Instituições
-    const [data, setData] = useState([]);
-
-    // Evento para capturar os registros
-    const fetchInstituicaoList = React.useMemo(() => async () => {
-        try {
-            const res = await axios.get(`${backendUrl}/instituicoes`);
-            setData(res.data);
-        } catch (error) {
-            console.error(error);
-        }
-    }, []);
-
-    // Evento para excluir o registro
-    const handleDelete = async (id) => {
-        try {
-            await axios.delete(`${backendUrl}/instituicoes/${id}`);
-            setUpdate(!update);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    // Evento para editar o registro
     const handleSubmitEdit = async () => {
         try {
             const body = {
@@ -63,15 +45,40 @@ const InstituicoesTable = (props) => {
 
             await axios.put(`${backendUrl}/instituicoes/${id}`, body);
             setUpdate(!update);
+            setShowEdit(false);
+            setNome(undefined);
+            setUf(undefined);
+            setQtdAlunos(undefined);
         } catch (error) {
             console.error(error);
         }
-    }    
+    }
 
-    // Inicialização/atualização da listagem
-    useEffect(() => {
-        fetchInstituicaoList();
-    }, [update]);
+    // Estado e eventos para Excluir
+    const [showDelete, setShowDelete] = useState(false);
+
+    const handleCloseDelete = () => {
+        setShowDelete(false);
+        setNome(undefined);
+        setUf(undefined);
+    }
+    const handleShowDelete = instituicao => {
+        setNome(instituicao.nome);
+        setUf(instituicao.uf);
+        setId(instituicao._id);
+        setShowDelete(true);
+    }
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`${backendUrl}/instituicoes/${id}`);
+            setUpdate(!update);
+            setShowDelete(false);
+            setNome(undefined);
+            setUf(undefined);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     const columns = React.useMemo(
         () => [
@@ -98,13 +105,12 @@ const InstituicoesTable = (props) => {
                 id: "excluir",
                 Cell: ({row}) => (
                     <div className="action-button-container">
-                        <Button variant="danger" onClick={() => handleDelete(row.original._id)} size="sm">Excluir</Button>
+                        <Button size="sm" variant="danger" onClick={() => handleShowDelete(row.original)}>Excluir</Button>
                     </div>
                 )
             }
         ])
     }
-    
     const tableInstance = useTable({ columns, data }, tableHooks)
 
     const {
@@ -167,6 +173,24 @@ const InstituicoesTable = (props) => {
                     </Button>
                     <Button variant="primary" onClick={handleSubmitEdit}>
                         Salvar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            {/* Modal para Deletar Instituição*/}
+            <Modal show={showDelete} onHide={handleCloseDelete}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Excluir Instituição</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Deseja excluir a Instituição {nome} ({uf})?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseDelete}>
+                        Cancelar
+                    </Button>
+                    <Button variant="danger" onClick={() => handleDelete(id)}>
+                        Confirmar
                     </Button>
                 </Modal.Footer>
             </Modal>
