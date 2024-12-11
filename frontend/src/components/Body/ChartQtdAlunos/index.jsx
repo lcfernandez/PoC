@@ -9,7 +9,7 @@ const ChartQtdAlunos = (props) => {
     
     useLayoutEffect(() => {
         // Create root element
-        let root = am5.Root.new("chartdiv");
+        let root = am5.Root.new("chart-div");
 
         // Set themes
         root.setThemes([
@@ -102,7 +102,7 @@ const ChartQtdAlunos = (props) => {
         <div className='chart-container'>
             <h1>Gráfico de quantidade de alunos</h1>
             <div className='chart-element'>
-                <div id="chartdiv" style={{ width: "100%", height: "500px" }}></div>
+                <div id='chart-div' style={{ width: '100%', height: '500px' }}></div>
             </div>
         </div>
     );
