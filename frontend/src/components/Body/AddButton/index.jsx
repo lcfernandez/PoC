@@ -30,21 +30,21 @@ const AddButton = (props) => {
     const handleShow = () => setShow(true);
 
     // Evento para salvar o registro
-    const handleSubmit = () => {
-        const body = {
-            "nome": nome, "uf": uf, "qtdAlunos": parseInt(qtdAlunos)
-        };
+    const handleSubmit = async () => {
+        try {
+            const body = {
+                "nome": nome, "uf": uf, "qtdAlunos": parseInt(qtdAlunos)
+            };
 
-        axios
-            .post(`${backendUrl}/instituicoes`, body)
-            .then(() => {
-                setUpdate(!update);
-                setShow(false);
-                setNome(undefined);
-                setUf(undefined);
-                setQtdAlunos(undefined);
-            })
-            .catch(err => alert(err.response.data.message || err.response.data));
+            await axios.post(`${backendUrl}/instituicoes`, body);
+            setUpdate(!update);
+            setShow(false);
+            setNome(undefined);
+            setUf(undefined);
+            setQtdAlunos(undefined);
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
