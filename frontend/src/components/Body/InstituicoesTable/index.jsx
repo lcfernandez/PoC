@@ -89,7 +89,7 @@ const InstituicoesTable = (props) => {
             {
                 id: "editar",
                 Cell: ({row}) => (
-                    <div class="action-button-container">
+                    <div className="action-button-container">
                         <Button size="sm" onClick={() => handleShowEdit(row.original)}>Editar</Button>
                     </div>
                 )
@@ -97,7 +97,7 @@ const InstituicoesTable = (props) => {
             {
                 id: "excluir",
                 Cell: ({row}) => (
-                    <div class="action-button-container">
+                    <div className="action-button-container">
                         <Button variant="danger" onClick={() => handleDelete(row.original._id)} size="sm">Excluir</Button>
                     </div>
                 )
