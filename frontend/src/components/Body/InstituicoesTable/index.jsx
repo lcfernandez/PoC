@@ -46,6 +46,9 @@ const InstituicoesTable = (props) => {
             await axios.put(`${backendUrl}/instituicoes/${id}`, body);
             setUpdate(!update);
             setShowEdit(false);
+            setNome(undefined);
+            setUf(undefined);
+            setQtdAlunos(undefined);
         } catch (error) {
             console.error(error);
         }
@@ -70,6 +73,8 @@ const InstituicoesTable = (props) => {
             await axios.delete(`${backendUrl}/instituicoes/${id}`);
             setUpdate(!update);
             setShowDelete(false);
+            setNome(undefined);
+            setUf(undefined);
         } catch (error) {
             console.error(error);
         }

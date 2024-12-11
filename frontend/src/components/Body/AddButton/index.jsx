@@ -40,6 +40,9 @@ const AddButton = (props) => {
             .then(() => {
                 setUpdate(!update);
                 setShow(false);
+                setNome(undefined);
+                setUf(undefined);
+                setQtdAlunos(undefined);
             })
             .catch(err => alert(err.response.data.message || err.response.data));
     }
