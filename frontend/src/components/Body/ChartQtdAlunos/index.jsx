@@ -102,7 +102,9 @@ const ChartQtdAlunos = (props) => {
         <div className='chart-container'>
             <h1>Gráfico de quantidade de alunos</h1>
             <div className='chart-element'>
-                <div id='chart-div' style={{ width: '100%', height: '500px' }}></div>
+                <div id='chart-div'>
+                    {!dataChart.length && <p>O gráfico ainda não contém dados.</p>}
+                </div>
             </div>
         </div>
     );
