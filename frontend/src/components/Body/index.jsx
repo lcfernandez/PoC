@@ -1,11 +1,11 @@
+import axios from 'axios';
+import backendUrl from '../../utils/backend-url';
 import React, { useLayoutEffect, useState } from 'react';
 import AddButton from './AddButton';
 import BackendStatus from './BackendStatus';
 import ChartQtdAlunos from './ChartQtdAlunos';
 import InstituicoesTable from './InstituicoesTable';
 import './index.css'
-import axios from 'axios';
-import backendUrl from '../../utils/backend-url';
 
 const Body = () => {
     // Estados para os dados da Instituição
@@ -13,8 +13,17 @@ const Body = () => {
     const [uf, setUf] = useState(undefined);
     const [qtdAlunos, setQtdAlunos] = useState(undefined);
 
-    // Estado para a atualização da listagem de Instituições
-    const [update, setUpdate] = useState(false);
+    // Estado e evento para os dados da tabela
+    const [data, setData] = useState([]);
+
+    const fetchInstituicaoList = React.useMemo(() => async () => {
+        try {
+            const res = await axios.get(`${backendUrl}/instituicoes`);
+            setData(res.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }, []);
 
     // Estado e evento para os dados do gráfico
     // Implementados aqui por problemas de ciclo de vida quando presentes no ChartQtdAlunos
@@ -29,7 +38,12 @@ const Body = () => {
         }
     }
 
+    // Estado para a atualização dos dados da tabela e gráfico
+    const [update, setUpdate] = useState(false);
+
+    // Inicialização/atualização da tabela e gráfico
     useLayoutEffect(() => {
+        fetchInstituicaoList();
         fetchChart();
     }, [update])
 
@@ -53,6 +67,7 @@ const Body = () => {
                 setUf={setUf}
                 qtdAlunos={qtdAlunos}
                 setQtdAlunos={setQtdAlunos}
+                data={data}
                 update={update}
                 setUpdate={setUpdate}
             />
