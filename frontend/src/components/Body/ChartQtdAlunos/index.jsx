@@ -8,15 +8,15 @@ const ChartQtdAlunos = (props) => {
     const {dataChart} = props;
     
     useLayoutEffect(() => {
-        // Create root element
+        // Criação do elemento raiz
         let root = am5.Root.new("chart-div");
 
-        // Set themes
+        // Escolha do tema
         root.setThemes([
             am5themes_Animated.new(root)
         ]);
 
-        // Create chart
+        // Criação do gráfico
         let chart = root.container.children.push(am5xy.XYChart.new(root, {
             panX: true,
             panY: true,
@@ -27,11 +27,11 @@ const ChartQtdAlunos = (props) => {
             paddingRight: 1
         }));
 
-        // Add cursor
+        // Criação do cursor
         let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
         cursor.lineY.set("visible", false);
 
-        // Create axes
+        // Criação dos eixos
         let xRenderer = am5xy.AxisRendererX.new(root, {
             minGridDistance: 30,
             minorGridEnabled: true
@@ -64,7 +64,7 @@ const ChartQtdAlunos = (props) => {
             renderer: yRenderer
         }));
 
-        // Create series
+        // Criação das séries
         let series = chart.series.push(am5xy.ColumnSeries.new(root, {
             name: "Series 1",
             xAxis: xAxis,
@@ -89,7 +89,7 @@ const ChartQtdAlunos = (props) => {
         xAxis.data.setAll(props.dataChart);
         series.data.setAll(props.dataChart);
 
-        // Make stuff animate on load
+        // Animação ao carregar
         series.appear(1000);
         chart.appear(1000, 100);
 
