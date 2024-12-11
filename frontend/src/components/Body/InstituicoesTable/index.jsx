@@ -77,7 +77,7 @@ const InstituicoesTable = (props) => {
         () => [
             { Header: 'Nome', accessor: 'nome' },
             { Header: 'UF', accessor: 'uf' },
-            { Header: 'Qtd Alunos', accessor: 'qtdAlunos' },
+            { Header: 'Qtd Alunos', accessor: 'qtdAlunos' },            
         ],
         []
     );
@@ -89,13 +89,17 @@ const InstituicoesTable = (props) => {
             {
                 id: "editar",
                 Cell: ({row}) => (
-                    <Button size="sm" onClick={() => handleShowEdit(row.original)}>Editar</Button>
+                    <div class="action-button-container">
+                        <Button size="sm" onClick={() => handleShowEdit(row.original)}>Editar</Button>
+                    </div>
                 )
             },
             {
                 id: "excluir",
                 Cell: ({row}) => (
-                    <Button variant='danger' onClick={() => handleDelete(row.original._id)} size="sm">Excluir</Button>
+                    <div class="action-button-container">
+                        <Button variant="danger" onClick={() => handleDelete(row.original._id)} size="sm">Excluir</Button>
+                    </div>
                 )
             }
         ])
