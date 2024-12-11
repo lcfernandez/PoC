@@ -20,7 +20,13 @@ const AddButton = (props) => {
 
     const [show, setShow] = useState(false);
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setNome(undefined);
+        setUf(undefined);
+        setQtdAlunos(undefined);
+    };
+    
     const handleShow = () => setShow(true);
 
     // Evento para salvar o registro
@@ -33,6 +39,7 @@ const AddButton = (props) => {
             .post(`${backendUrl}/instituicoes`, body)
             .then(() => {
                 setUpdate(!update);
+                setShow(false);
             })
             .catch(err => alert(err.response.data.message || err.response.data));
     }

@@ -24,7 +24,12 @@ const InstituicoesTable = (props) => {
     // Estado e eventos para Editar
     const [showEdit, setShowEdit] = useState(false);
 
-    const handleCloseEdit = () => setShowEdit(false);
+    const handleCloseEdit = () => {
+        setShowEdit(false);
+        setNome(undefined);
+        setUf(undefined);
+        setQtdAlunos(undefined);
+    }
     const handleShowEdit = instituicao => {
         setNome(instituicao.nome);
         setUf(instituicao.uf);
@@ -49,7 +54,11 @@ const InstituicoesTable = (props) => {
     // Estado e eventos para Excluir
     const [showDelete, setShowDelete] = useState(false);
 
-    const handleCloseDelete = () => setShowDelete(false);
+    const handleCloseDelete = () => {
+        setShowDelete(false);
+        setNome(undefined);
+        setUf(undefined);
+    }
     const handleShowDelete = instituicao => {
         setNome(instituicao.nome);
         setUf(instituicao.uf);
