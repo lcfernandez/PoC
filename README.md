@@ -1,3 +1,15 @@
+
+Pontos de melhoria:
+
+- implementar carregamento para a tabela e gráfico antes de carregar os dados;
+- desabilitar botões e inputs enquanto as ações são processadas;
+- validações de dados no backend e frontend;
+- remoção dos alerts, informando os erros de maneira mais amigável;
+- restrições de preenchimento de caracteres que não fazem sentido nos inputs ou colocação de máscara;
+- maior componentização para tirar proveito do React e estruturação do código no geral, evitando linhas repetidas;
+- habilitar pressionamento do Enter para confirmar as ações dos modais;
+- entre outros.
+
 # Descrição Geral da PoC
 
 Para essa Prova de Conceito, você receberá dois templates (um frontend com React e um backend com Node.js) para agilizar a implementação e concentrar os esforços na funcionalidade. **Para um passo-a-passo de como executá-los, leia o README de cada um**. Além disso, você receberá as senhas de acesso para um banco MongoDB. Não esqueça de alterar as informações de conexão no backend.
