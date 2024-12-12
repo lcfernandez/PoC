@@ -28,7 +28,7 @@ const instituicaoSchema = Joi.object({
     uf: Joi.string().min(2).max(2).required().valid(
         'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MS', 'MT', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
     ).error(new Error('A UF é inválida.')),
-    qtdAlunos: Joi.number().integer().min(0).required().error(new Error('A Quantidade de Alunos é inválida.')),
+    qtdAlunos: Joi.number().integer().min(0).strict().required().error(new Error('A Quantidade de Alunos é inválida.')),
 });
 
 // Insere uma Instituição
@@ -87,21 +87,20 @@ router.put('/:id', async (req, res) => {
             const validation = instituicaoSchema.validate(instituicaoEdit);
         
             if (validation.error) {
-                console.log(validation)
-                console.log(validation.error)
                 return res.status(422).send(validation.error.message);
             }
 
-            // Verifica a existência de uma Instituição com o mesmo Nome
+            // Verifica a existência de uma Instituição com o mesmo Nome e UF
             const instituicaoNome = await Instituicoes.findOne(
                 {
-                    nome: req.body.nome
+                    nome: req.body.nome,
+                    uf: req.body.uf,
                 }
             );
 
             if (instituicaoNome) {
-                // Verifica se a Instituição de mesmo Nome é da mesma UF
-                if (instituicaoNome.uf === req.body.uf) {
+                // Verifica se a Instituição de mesmo Nome não é ela mesma
+                if (!(instituicaoNome._id.equals(instituicao._id))) {
                     return res.status(409).send('Já existe uma Instituição com o mesmo Nome e UF.');
                 }
             }
