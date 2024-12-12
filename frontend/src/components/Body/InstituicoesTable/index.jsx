@@ -51,6 +51,7 @@ const InstituicoesTable = (props) => {
             setQtdAlunos('');
             setId('');
         } catch (error) {
+            alert(error.response.data);
             console.error(error);
         }
     }

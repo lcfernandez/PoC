@@ -43,6 +43,7 @@ const AddButton = (props) => {
             setUf('');
             setQtdAlunos('');
         } catch (error) {
+            alert(error.response.data);
             console.error(error);
         }
     }
