@@ -17,7 +17,7 @@ const FormInstituicao = (props) => {
                 id="nome"
                 name="nome"
                 onChange={e => setNome(e.target.value)}
-                required="required"
+                placeholder="Ex: Universidade Federal do Rio de Janeiro"
                 type="text"
                 value={nome}
             />
@@ -28,7 +28,7 @@ const FormInstituicao = (props) => {
                 maxLength="2" 
                 name="uf"
                 onChange={e => setUf(e.target.value)}
-                required="required"
+                placeholder="Ex: RJ"
                 type="text"
                 value={uf}
             />
@@ -39,7 +39,7 @@ const FormInstituicao = (props) => {
                 min="0"
                 name="qtd-alunos"
                 onChange={e => setQtdAlunos(e.target.value)}
-                required="required"
+                placeholder="Ex: 69200"
                 type="number"
                 value={qtdAlunos}
             />

@@ -9,9 +9,9 @@ import './index.css'
 
 const Body = () => {
     // Estados para os dados da Instituição
-    const [nome, setNome] = useState(undefined);
-    const [uf, setUf] = useState(undefined);
-    const [qtdAlunos, setQtdAlunos] = useState(undefined);
+    const [nome, setNome] = useState('');
+    const [uf, setUf] = useState('');
+    const [qtdAlunos, setQtdAlunos] = useState('');
 
     // Estado e evento para os dados da tabela
     const [data, setData] = useState([]);

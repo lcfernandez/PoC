@@ -22,9 +22,9 @@ const AddButton = (props) => {
 
     const handleClose = () => {
         setShow(false);
-        setNome(undefined);
-        setUf(undefined);
-        setQtdAlunos(undefined);
+        setNome('');
+        setUf('');
+        setQtdAlunos('');
     };
     
     const handleShow = () => setShow(true);
@@ -39,10 +39,11 @@ const AddButton = (props) => {
             await axios.post(`${backendUrl}/instituicoes`, body);
             setUpdate(!update);
             setShow(false);
-            setNome(undefined);
-            setUf(undefined);
-            setQtdAlunos(undefined);
+            setNome('');
+            setUf('');
+            setQtdAlunos('');
         } catch (error) {
+            alert(error.response.data);
             console.error(error);
         }
     }
